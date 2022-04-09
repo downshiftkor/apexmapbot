@@ -1,0 +1,5 @@
+beautifulsoup4==4.11.1
+discord==1.7.3
+discord.py==1.7.3
+requests==2.27.1
+soupsieve==2.3.2
