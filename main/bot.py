@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 import re
 import os
+import json
 
 def minute_change(minute):
     ss = int(minute)
@@ -13,20 +14,20 @@ def minute_change(minute):
     return result
 
 def apex_map():
-    map_list = {'Olympus':'올림푸스', 'Storm Point':'개씹썅똥꾸릉내', 'Kings Canyon':'킹스 캐니언'}
+    map_list = {'Olympus':'올림푸스', 'Storm Point':'스톰 포인트', 'Kings Canyon':'킹스 캐니언', "World's Edge":'세상의 끝'}
     
     url = 'https://api.mozambiquehe.re/maprotation?version=2&auth=b7U7qjwNBU5e2m9WjwCS'
-    page = requests.get(url)
-    soup = bs(page.text, "html.parser")
-    result = str(soup.get_text())
+    html = requests.get(url)
+    soup = bs(html.text, "html.parser")
+    jsonObj = json.loads(soup.text)
 
-    c_map = re.search('"map": "(.+?)",', result).group(1)
-    c_map_dura = re.search('"remainingTimer": "(.+?)"', result).group(1)
+    c_map = jsonObj['battle_royale']['current']['map']
+    c_map_dura = jsonObj['battle_royale']['current']['remainingTimer']
 
-    next_map = re.findall('"map": "(.+?)"', result)
-    next_map_dura = ','.join(re.findall("\d+",re.search('"DurationInMinutes": \d+', result).group(0)))
+    next_map = jsonObj['battle_royale']['next']['map']
+    next_map_dura = jsonObj['battle_royale']['next']['DurationInMinutes']
 
-    result = f'```현재 맵 : {map_list[c_map]} {c_map_dura} 남음\n다음 맵 : {map_list[next_map[1]]} {minute_change(next_map_dura)}```'
+    result = f'```현재 맵 : {map_list[c_map]} {c_map_dura} 남음\n다음 맵 : {map_list[next_map]} {minute_change(next_map_dura)}```'
 
     return result
     
