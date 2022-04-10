@@ -13,7 +13,7 @@ def minute_change(minute):
     return result
 
 def apex_map():
-    map_list = {'Olympus':'올림푸스', 'Storm Point':'스톰 포인트', 'Kings Canyon':'킹스 캐니언'}
+    map_list = {'Olympus':'올림푸스', 'Storm Point':'개씹썅똥꾸릉내', 'Kings Canyon':'킹스 캐니언'}
     
     url = 'https://api.mozambiquehe.re/maprotation?version=2&auth=b7U7qjwNBU5e2m9WjwCS'
     page = requests.get(url)
